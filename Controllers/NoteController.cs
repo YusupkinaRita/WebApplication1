@@ -1,22 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TaskController : ControllerBase
+    [Authorize]
+    public class NoteController : ControllerBase
     {
-        private static List<Task> _tasks = new()
+        private static List<Note> _tasks = new()
         {
-            new Task { Title = "task1", IsCompleted = false },
-            new Task { Title = "task2", IsCompleted = true },
-            new Task { Title = "task3", IsCompleted = false }
+            new Note { Title = "task1", IsCompleted = false },
+            new Note { Title = "task2", IsCompleted = true },
+            new Note { Title = "task3", IsCompleted = false }
         };
 
         
         [HttpGet]
-        public List<Task> GetAll()
+        public List<Note> GetAll()
         {
             return _tasks;
         }
@@ -24,7 +26,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult AddTask([FromBody] string title)
         {
-            var task = new Task { Title = title };
+            var task = new Note { Title = title };
             _tasks.Add(task);
             return Ok(task);
         }
